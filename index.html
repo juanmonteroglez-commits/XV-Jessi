@@ -276,6 +276,23 @@
       linear-gradient(180deg, transparent 70%, rgba(174,120,32,.14) 100%);
     box-shadow:0 0 0 1px rgba(255,255,255,.2) inset;
   }
+  .envelope-folds{
+    position:absolute; inset:0; z-index:4; pointer-events:none;
+    background:
+      linear-gradient(146deg, transparent 48.7%, rgba(255,255,255,.52) 49.3%, rgba(255,255,255,.08) 50.1%, transparent 50.8%),
+      linear-gradient(34deg, transparent 48.9%, rgba(255,255,255,.42) 49.5%, rgba(255,255,255,.06) 50.2%, transparent 50.9%),
+      linear-gradient(145deg, transparent 49.2%, rgba(135,83,12,.28) 49.8%, transparent 50.6%),
+      linear-gradient(35deg, transparent 49.3%, rgba(135,83,12,.22) 50%, transparent 50.7%);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.28) inset,
+      0 -2px 0 rgba(135,83,12,.14) inset;
+  }
+  .envelope-flap-edge{
+    position:absolute; left:17%; right:17%; top:64%; z-index:4;
+    height:2px; pointer-events:none;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.62) 18%, rgba(137,84,11,.34) 50%, rgba(255,255,255,.5) 82%, transparent);
+    box-shadow:0 2px 2px rgba(126,83,15,.18);
+  }
   .envelope-bow{
     position:absolute; left:50%; top:50%; z-index:5;
     width:min(195px, 72%); height:145px; transform:translate(-50%,-50%);
@@ -384,6 +401,20 @@
      CÓDIGO DE VESTIMENTA Y GALERÍA
      ============================================================ */
   .dresscode-photo{width:100%; border-radius:var(--radius); margin-top:20px;}
+
+  /* ============================================================
+     PADRINOS DE VELACION
+     ============================================================ */
+  .godparents{text-align:center;}
+  .godparents-names{margin-top:24px;}
+  .godparents-names p{
+    color:var(--color-primary); font-family:var(--font-display);
+    font-size:clamp(23px, 6vw, 30px); line-height:1.2;
+  }
+  .godparents-ampersand{
+    display:block; margin:10px 0; color:var(--color-accent);
+    font-family:var(--font-display); font-size:27px; line-height:1;
+  }
 
   /* ---------- CARRUSEL DE MEMORIES ---------- */
   /* Contenedor que envuelve el carrusel y las flechas, para poder posicionar
@@ -501,6 +532,8 @@
   <div class="invitation-cover" id="invitationCover">
     <button class="envelope-button" id="openInvitation" type="button" aria-label="Abrir invitación">
       <span class="envelope" aria-hidden="true">
+        <span class="envelope-folds"></span>
+        <span class="envelope-flap-edge"></span>
         <img class="envelope-bow" src="moño.png" alt="">
       </span>
       <span class="envelope-label">Abrir invitación</span>
@@ -605,6 +638,21 @@
       <h2 id="vestimentaTitulo"></h2>
       <p id="vestimentaTexto"></p>
       <img class="dresscode-photo" src="Ejem.png" alt="Código de vestimenta">
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PADRINOS DE VELACION
+  ============================================================ -->
+  <section class="godparents">
+    <div class="wrap">
+      <span class="eyebrow">Personas especiales</span>
+      <h2>Padrinos de velación</h2>
+      <div class="godparents-names">
+        <p>J. Guadalupe Rangel Huerta</p>
+        <span class="godparents-ampersand">&amp;</span>
+        <p>Juana Araus Bocanegra</p>
+      </div>
     </div>
   </section>
 
@@ -714,8 +762,8 @@
       { hora: "4:00 PM", actividad: "Ceremonia religiosa" },
       { hora: "5:00 PM", actividad: "Recepción" },
       { hora: "6:00 PM", actividad: "Entrada de la quinceañera" },
-      { hora: "10:00 PM", actividad: "Vals" },
-      { hora: "11:30 PM", actividad: "Baile" }
+      { hora: "8:00 PM", actividad: "Vals" },
+      { hora: "10:00 PM", actividad: "Baile" }
     ],
 
     vestimenta: {
