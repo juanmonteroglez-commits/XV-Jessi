@@ -437,8 +437,8 @@
   .carousel-track::-webkit-scrollbar{display:none;} /* la oculta en Chrome/Safari/Edge */
 
   .carousel-track img{
-    flex:0 0 60%;                  /* cada foto ocupa menos espacio y deja asomarse las vecinas */
-    max-width:260px;               /* evita que crezcan demasiado en pantallas amplias */
+    flex:0 0 68%;                  /* fotos mas grandes, manteniendo visibles las vecinas */
+    max-width:290px;               /* evita que crezcan demasiado en pantallas amplias */
     scroll-snap-align:center;      /* el "enganche" del scroll se hace al centro de cada foto */
     aspect-ratio:4/5;
     object-fit:cover;
@@ -519,7 +519,7 @@
     .place-card .addr{font-size:15px;}
     .dresscode-photo{width:100%; margin:22px auto 0;}
     .carousel-track{gap:8px; padding:0 30px 5px;}
-    .carousel-track img{flex-basis:45%; max-width:150px;}
+    .carousel-track img{flex-basis:58%; max-width:185px;}
     .carousel-arrow{width:29px; height:29px; font-size:17px;}
     .carousel-arrow.prev{left:4px;}
     .carousel-arrow.next{right:4px;}
