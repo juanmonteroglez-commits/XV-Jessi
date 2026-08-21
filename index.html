@@ -438,7 +438,7 @@
 
   .carousel-track img{
     flex:0 0 80%;                  /* fotos mas grandes, manteniendo visibles las vecinas */
-    max-width:335px;               /* evita que crezcan demasiado en pantallas amplias */
+    max-width:385px;               /* evita que crezcan demasiado en pantallas amplias */
     scroll-snap-align:center;      /* el "enganche" del scroll se hace al centro de cada foto */
     aspect-ratio:4/5;
     object-fit:cover;
@@ -498,7 +498,7 @@
   }
 
   /* Ajustes para teléfonos: reduce el aire lateral y vertical sin perder la jerarquía visual */
-  @media(max-width:599px){
+  @media(max-width:620px){
     .wrap{width:100%; max-width:none; padding:0 8px;}
     section{width:100%;}
     section > .wrap{width:100%;}
