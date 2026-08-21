@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<!-- Hace que la página se vea bien en celulares: usa el ancho real de la pantalla y no hace zoom automático -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Título que aparece en la pestaña del navegador -->
+<title>Mis XV Años</title>
+
+<!-- Estas dos líneas "precalientan" la conexión a Google Fonts para que las tipografías carguen más rápido -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Importa las dos tipografías que usa la invitación:
+     - Cormorant Garamond: la fuente elegante tipo serif para títulos
+     - Jost: la fuente delgada tipo sans-serif para textos normales -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     1. VARIABLES — cambia aquí la paleta y tipografía globales
+     Estas "variables CSS" (--nombre) son valores reutilizables:
+     si cambias un color aquí, se actualiza en TODA la página
+     automáticamente, sin tener que buscarlo línea por línea.
+     ============================================================ */
+  :root{
+    --color-mint:      #4FAE86;   /* menta intenso — color de arriba del degradado de fondo */
+    --color-beige:     #F0E2C0;   /* beige dorado — color de abajo del degradado de fondo */
+    --color-card:      rgba(255,255,255,.55); /* blanco semi-transparente, usado en tarjetas/placeholders de fotos */
+    --color-ink:       #14261C;   /* color principal del texto (verde muy oscuro, casi negro) */
+    --color-ink-soft:  #35513F;   /* color de texto secundario (párrafos, direcciones, etc.) */
+    --color-primary:   #1b422f;   /* verde usado en títulos y botones */
+    --color-accent:    #f3f3f3;   /* dorado "normal" — usado en textos y bordes decorativos */
+    --color-gold-glow: #f8be29;   /* dorado brillante — solo para las estrellas y el halo de la foto del hero */
+    --color-line:      rgba(199,161,90,.35); /* dorado translúcido, usado en líneas divisoras */
+    --font-display: 'Cormorant Garamond', serif;  /* fuente de títulos */
+    --font-body:    'Jost', sans-serif;            /* fuente de texto normal */
+    --radius: 2px;      /* qué tan redondeadas son las esquinas (aquí casi rectas) */
+    --max-w: 480px;      /* ancho máximo del contenido, para que se vea bien tipo "tarjeta" en pantallas grandes */
+  }
+
+  /* Reset básico: quita márgenes/paddings por defecto del navegador
+     y hace que padding/border se cuenten DENTRO del ancho de cada elemento (más fácil de calcular medidas) */
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  /* Hace que al hacer clic en un link interno (como "#") la página se desplace suavemente en vez de saltar de golpe */
+  html{scroll-behavior:smooth;}
+  html, body{width:100%; min-width:0;}
+
+  body{
+    font-family:var(--font-body);  /* tipografía base de todo el texto */
+    color:var(--color-ink);        /* color de texto por defecto */
+    /* Fondo degradado de toda la página: de menta (arriba) a beige dorado (abajo).
+       180deg = de arriba hacia abajo. Como el body no tiene una altura fija,
+       este degradado cubre TODO el alto real de la página, no solo la pantalla visible. */
+    background:linear-gradient(180deg, var(--color-mint) 0%, var(--color-beige) 100%);
+    -webkit-font-smoothing:antialiased; /* suaviza el renderizado del texto en Mac/iOS */
+    overflow-x:hidden;
+  }
+
+  img{max-width:100%; display:block;} /* las imágenes nunca se desbordan de su contenedor */
+  a{color:inherit; text-decoration:none;} /* los links heredan el color del texto y no llevan subrayado */
+
+  /* Contenedor central: limita el ancho del contenido y lo centra, con espacio a los lados */
+  .wrap{max-width:var(--max-w); margin:0 auto; padding:0 28px;}
+
+  /* Cada <section> (cada bloque de la invitación) tiene espacio arriba/abajo
+     y una línea dorada tenue que la separa de la siguiente sección */
+  section{
+    min-height:100dvh;
+    padding:72px 0;
+    border-bottom:1px solid var(--color-line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  section:last-of-type{border-bottom:none;} /* la última sección no lleva línea abajo */
+
+  /* "Eyebrow" = la palabra pequeña en mayúsculas que va arriba de cada título (ej. "PROGRAMA") */
+  .eyebrow{
+    font-family:var(--font-body);
+    font-size:12px;
+    letter-spacing:.28em;        /* separa mucho las letras, look elegante */
+    text-transform:uppercase;    /* fuerza mayúsculas aunque el texto se escriba en minúsculas */
+    color:var(--color-accent);
+    margin-bottom:14px;
+    display:block;               /* ocupa su propia línea */
+  }
+
+  h1,h2{font-family:var(--font-display); font-weight:500; color:var(--color-primary);} /* títulos con la fuente elegante */
+  h2{font-size:32px; margin-bottom:8px;}
+  p{color:var(--color-ink-soft); line-height:1.7; font-size:15px;} /* párrafos con interlineado amplio, más fáciles de leer */
+
+  /* Botón con solo borde (outline), usado por ejemplo en "Ver mapa" */
+  .btn{
+    display:inline-block;
+    margin-top:18px;
+    padding:13px 30px;
+    border:1px solid var(--color-primary);
+    color:var(--color-primary);
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    border-radius:var(--radius);
+    transition:.25s;             /* anima el cambio de color al pasar el mouse */
+  }
+  .btn:hover{background:var(--color-primary); color:#fff;} /* al pasar el mouse, se rellena de color */
+  .btn.solid{background:var(--color-primary); color:#fff;} /* variante ya rellena desde el inicio (ej. "Confirmar asistencia") */
+  .btn.solid:hover{background:var(--color-ink);}
+
+  /* ============================================================
+     HERO — la primera pantalla que se ve al entrar
+     ============================================================ */
+  .hero{
+    text-align:center;
+    padding:64px 28px 56px;
+    border-bottom:none;
+    position:relative;   /* necesario para poder colocar las estrellas/destellos encima con position:absolute */
+    overflow:hidden;      /* evita que las estrellas se salgan del recuadro del hero */
+    color:var(--color-ink);
+  }
+
+  /* Capa de puntitos dorados (las "estrellas" de fondo).
+     Se dibuja con muchos radial-gradient pequeños, cada uno es un punto en una posición (X%, Y%) distinta.
+     inset:0 hace que esta capa cubra exactamente todo el .hero */
+  .hero-stars{
+    position:absolute; inset:0; pointer-events:none; opacity:1; /* pointer-events:none = no bloquea los clics */
+    background-repeat:no-repeat;
+    background-image:
+      radial-gradient(2px 2px at 12% 18%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 82% 12%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 35% 8%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 92% 32%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 6% 42%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 60% 15%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 25% 58%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 75% 55%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 45% 72%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 90% 78%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 15% 85%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 68% 90%, var(--color-gold-glow), transparent),
+      radial-gradient(1.5px 1.5px at 48% 25%, var(--color-gold-glow), transparent),
+      radial-gradient(1.5px 1.5px at 58% 60%, var(--color-gold-glow), transparent),
+      radial-gradient(1.5px 1.5px at 20% 30%, var(--color-gold-glow), transparent),
+      radial-gradient(1.5px 1.5px at 80% 65%, var(--color-gold-glow), transparent);
+  }
+
+  /* Estilo base de cada "destello" ✦ / ✧ que titila.
+     Son elementos <span> individuales (no parte del fondo), por eso se pueden animar uno por uno. */
+  .hero-sparkle{
+    position:absolute; color:var(--color-gold-glow); font-size:14px; line-height:1;
+    text-shadow:0 0 10px rgba(255,216,115,.9), 0 0 4px rgba(255,255,255,.6); /* resplandor alrededor del símbolo */
+    animation:heroTwinkle 3.4s ease-in-out infinite; /* aplica la animación de titileo definida más abajo */
+  }
+  /* Posición y tamaño de cada destello individual, y un "animation-delay" distinto
+     para que no titilen todos al mismo tiempo (se ve más natural) */
+  .hero-sparkle.s1{top:10%; left:18%; font-size:16px; animation-delay:0s;}
+  .hero-sparkle.s2{top:16%; left:78%; font-size:12px; animation-delay:.8s;}
+  .hero-sparkle.s3{top:38%; left:8%;  font-size:11px; animation-delay:1.6s;}
+  .hero-sparkle.s4{top:46%; left:88%; font-size:15px; animation-delay:.4s;}
+  .hero-sparkle.s5{top:72%; left:14%; font-size:12px; animation-delay:2.2s;}
+  .hero-sparkle.s6{top:78%; left:84%; font-size:13px; animation-delay:1.2s;}
+
+  /* Animación de titileo: va de semi-transparente y pequeño a totalmente visible y un poco más grande, y regresa */
+  @keyframes heroTwinkle{
+    0%, 100%{opacity:.25; transform:scale(.85);}
+    50%{opacity:1; transform:scale(1.1);}
+  }
+  /* Si el usuario tiene activado "reducir movimiento" en su sistema (accesibilidad),
+     apagamos la animación y dejamos los destellos fijos y visibles */
+  @media (prefers-reduced-motion:reduce){
+    .hero-sparkle{animation:none; opacity:.8;}
+  }
+
+  /* z-index:1 asegura que el contenido (foto, nombre, fecha) quede POR ENCIMA
+     de las estrellas y destellos, que están en capas absolutas detrás */
+  .hero-content{position:relative; z-index:1;}
+
+  /* El marco circular dorado alrededor de la foto principal */
+  .hero-photo-frame{
+    width:210px; height:210px; border-radius:50%; margin:0 auto 26px; /* 50% = círculo perfecto */
+    padding:5px; /* deja un pequeño espacio entre el borde dorado y la foto */
+    border:2px solid var(--color-gold-glow);
+    /* box-shadow con 3 capas: un anillo fino, un resplandor medio y un resplandor amplio,
+       para crear el efecto de "halo" dorado brillante alrededor del círculo */
+    box-shadow:
+      0 0 0 2px rgba(255,216,115,.5),
+      0 0 34px 8px rgba(255,216,115,.75),
+      0 0 80px 26px rgba(255,216,115,.4);
+  }
+  .hero-photo{
+    width:100%; height:100%; border-radius:50%;
+    object-fit:cover;              /* recorta la foto para llenar el círculo sin deformarla */
+    object-position:center top;    /* prioriza la parte de arriba de la foto (donde suele estar la cara) */
+    border:3px solid #fff;
+    background:var(--color-card);  /* color que se ve si la foto todavía no se ha puesto */
+  }
+
+  .hero-eyebrow{color:var(--color-accent); letter-spacing:.4em;} /* "MIS XV AÑOS" arriba del nombre */
+  .hero-name{
+    font-size:36px; line-height:1.16; color:var(--color-primary); margin-top:6px; /* el nombre grande */
+  }
+  .hero-divider{
+    color:var(--color-accent); font-size:15px; margin:18px 0; letter-spacing:.3em; /* el símbolo ✦ entre el nombre y la fecha */
+  }
+  .hero-date{
+    font-size:13px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--color-ink-soft);
+  }
+
+  /* El óvalo con el puntito animado al final del hero, que invita a hacer scroll */
+  .hero-scroll{
+    margin:38px auto 0; width:24px; height:38px;
+    border:1px solid var(--color-line); border-radius:20px; position:relative;
+  }
+  .hero-scroll span{
+    position:absolute; top:7px; left:50%; width:4px; height:7px;
+    background:var(--color-accent); border-radius:2px; transform:translateX(-50%); /* centra el puntito horizontalmente */
+    animation:heroScrollDot 1.6s infinite; /* aplica la animación de "caída" definida abajo */
+  }
+  /* El puntito empieza arriba y visible, y termina más abajo y transparente: simula que "cae" */
+  @keyframes heroScrollDot{
+    0%{opacity:1; top:7px;}
+    100%{opacity:0; top:22px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-scroll span{animation:none;} /* respeta accesibilidad, igual que arriba */
+  }
+
+  /* ============================================================
+     CUENTA REGRESIVA
+     ============================================================ */
+  .countdown{text-align:center;}
+  .countdown-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:24px; /* 4 columnas iguales: días/hrs/min/seg */
+  }
+  .countdown-grid div{
+    background:var(--color-beige); backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.5);
+    padding:18px 6px; border-radius:var(--radius);
+  }
+  .countdown-grid .num{font-family:var(--font-display); font-size:30px; color:var(--color-primary); display:block;} /* el número grande */
+  .countdown-grid .lbl{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--color-ink-soft);} /* la etiqueta pequeña debajo */
+
+  /* ============================================================
+     COORDENADAS (iglesia y salón)
+     ============================================================ */
+  .place-card{margin-bottom:36px;}
+  .place-card:last-child{margin-bottom:0;} /* la última tarjeta no necesita margen extra abajo */
+  .place-photo{
+    width:100%; height:180px; object-fit:cover; border-radius:var(--radius); margin-bottom:16px;
+    background:var(--color-card); /* color visible mientras no se haya puesto la foto real */
+  }
+  .place-card h3{font-family:var(--font-display); font-size:22px; color:var(--color-ink); font-weight:500;}
+  .place-card .addr{font-size:13px; margin-top:4px;}
+
+  /* ============================================================
+     ITINERARIO
+     ============================================================ */
+  .itinerary-list{margin-top:28px;}
+  .itinerary-item{
+    display:flex; justify-content:center; gap:18px; padding:14px 0; border-top:1px solid var(--color-line); /* cada fila: hora + actividad, lado a lado */
+  }
+  .itinerary-item:last-child{border-bottom:1px solid var(--color-line);} /* la última fila también cierra con línea abajo */
+  .itinerary-item time{
+    font-family:var(--font-display); font-size:18px; color:var(--color-accent); min-width:64px; /* ancho fijo para que todas las horas alineen */
+  }
+  .itinerary-item span{font-size:14px; align-self:center; text-align:center;}
+
+  /* ============================================================
+     CÓDIGO DE VESTIMENTA Y GALERÍA
+     ============================================================ */
+  .dresscode-photo{width:100%; border-radius:var(--radius); margin-top:20px;}
+
+  /* ---------- CARRUSEL DE MEMORIES ---------- */
+  /* Contenedor que envuelve el carrusel y las flechas, para poder posicionar
+     las flechas de forma absoluta respecto a él */
+  .carousel-wrap{position:relative; margin-top:24px;}
+
+  /* La "pista" por la que se deslizan las fotos.
+     overflow-x:auto = permite deslizar horizontalmente.
+     scroll-snap-type:x mandatory = cada vez que sueltas el dedo/mouse,
+     el carrusel "engancha" la foto más cercana al centro, como en apps nativas. */
+  .carousel-track{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding:0 46px 6px;           /* deja aire a los lados para que se asome la siguiente/anterior foto */
+    scrollbar-width:none;          /* oculta la barra de scroll en Firefox */
+    -ms-overflow-style:none;       /* la oculta en navegadores viejos de Windows */
+  }
+  .carousel-track::-webkit-scrollbar{display:none;} /* la oculta en Chrome/Safari/Edge */
+
+  .carousel-track img{
+    flex:0 0 60%;                  /* cada foto ocupa menos espacio y deja asomarse las vecinas */
+    max-width:260px;               /* evita que crezcan demasiado en pantallas amplias */
+    scroll-snap-align:center;      /* el "enganche" del scroll se hace al centro de cada foto */
+    aspect-ratio:4/5;
+    object-fit:cover;
+    border-radius:var(--radius);
+    background:var(--color-card);
+  }
+
+  /* Flechas circulares de "anterior" / "siguiente", flotando encima de la pista */
+  .carousel-arrow{
+    position:absolute; top:42%; transform:translateY(-50%); z-index:2;
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--color-line);
+    background:rgba(255,255,255,.75); backdrop-filter:blur(4px);
+    color:var(--color-primary); font-size:20px; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .carousel-arrow.prev{left:6px;}
+  .carousel-arrow.next{right:6px;}
+
+  /* Puntitos indicadores debajo del carrusel: muestran cuántas fotos hay
+     y cuál está activa en este momento */
+  .carousel-dots{display:flex; justify-content:center; gap:8px; margin-top:16px;}
+  .carousel-dots span{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--color-line);
+    cursor:pointer;
+    transition:.25s;               /* anima el cambio de tamaño/color al activarse */
+  }
+  .carousel-dots span.active{
+    background:var(--color-accent);
+    width:18px; border-radius:4px;  /* el punto activo se alarga, look más elegante que solo cambiar de color */
+  }
+
+  /* Clase genérica para centrar el texto (se usa en varias secciones: sobres, RSVP, compartir) */
+  .center{text-align:center;}
+
+  /* ============================================================
+     RSVP (formulario de confirmación)
+     ============================================================ */
+  .rsvp form{margin-top:26px; display:flex; flex-direction:column; gap:14px;} /* apila los campos uno debajo del otro */
+  .rsvp input, .rsvp select{
+    width:100%; padding:12px 14px; border:1px solid var(--color-line); text-align:center;
+    background:#fff; font-family:var(--font-body); font-size:14px; border-radius:var(--radius);
+  }
+
+  /* Pie de página */
+  footer{
+    text-align:center; padding:40px 0; font-size:11px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--color-ink-soft);
+  }
+
+  /* En pantallas más anchas que 600px, la cuenta regresiva no se estira a todo el ancho:
+     se limita a 360px y se centra, para que no se vea demasiado separada */
+  @media(min-width:600px){
+    .countdown-grid{max-width:360px; margin:24px auto 0;}
+  }
+
+  /* Ajustes para teléfonos: reduce el aire lateral y vertical sin perder la jerarquía visual */
+  @media(max-width:599px){
+    .wrap{width:100%; max-width:none; padding:0 8px;}
+    section{width:100%;}
+    section > .wrap{width:100%;}
+    section{padding:60px 0;}
+    .hero{padding:50px 12px 44px;}
+    .hero-photo-frame{width:210px; height:210px; margin-bottom:24px;}
+    .hero-name{font-size:clamp(30px, 9vw, 40px);}
+    .hero-date{max-width:100%; font-size:clamp(11px, 3.2vw, 15px); letter-spacing:.16em; line-height:1.5; overflow-wrap:anywhere;}
+    h2{font-size:clamp(30px, 8vw, 38px);}
+    p{font-size:17px; line-height:1.7;}
+    .countdown-grid{gap:8px; margin-top:28px;}
+    .countdown-grid div{padding:22px 6px;}
+    .countdown-grid .num{font-size:clamp(28px, 8vw, 38px);}
+    .countdown-grid .lbl{font-size:11px;}
+    .place-photo{width:100%; height:220px; margin:0 auto 16px;}
+    .place-card h3{font-size:clamp(23px, 6.5vw, 29px); overflow-wrap:anywhere;}
+    .place-card .addr{font-size:15px;}
+    .dresscode-photo{width:100%; margin:22px auto 0;}
+    .carousel-track{gap:8px; padding:0 30px 5px;}
+    .carousel-track img{flex-basis:45%; max-width:150px;}
+    .carousel-arrow{width:29px; height:29px; font-size:17px;}
+    .carousel-arrow.prev{left:4px;}
+    .carousel-arrow.next{right:4px;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HERO — portada de la invitación
+  ============================================================ -->
+  <section class="hero">
+    <!-- Capa de fondo con los puntitos dorados (las "estrellas") -->
+    <div class="hero-stars"></div>
+    <!-- Destellos individuales que titilan encima de las estrellas de fondo -->
+    <span class="hero-sparkle s1" aria-hidden="true">✦</span>
+    <span class="hero-sparkle s2" aria-hidden="true">✧</span>
+    <span class="hero-sparkle s3" aria-hidden="true">✦</span>
+    <span class="hero-sparkle s4" aria-hidden="true">✧</span>
+    <span class="hero-sparkle s5" aria-hidden="true">✦</span>
+    <span class="hero-sparkle s6" aria-hidden="true">✧</span>
+
+    <!-- Contenido real del hero: foto, nombre y fecha -->
+    <div class="hero-content">
+      <div class="hero-photo-frame">
+        <!-- Reemplaza este src por la ruta real de la foto principal -->
+        <img class="hero-photo" src="PRINCIPAL.jpeg" alt="Foto principal de la quinceañera">
+      </div>
+      <span class="eyebrow hero-eyebrow">Mis XV Años</span>
+      <!-- Este <h1> está vacío en el HTML a propósito: el texto se rellena con JavaScript
+           desde el objeto EVENTO (más abajo), usando su id "nombreHero" -->
+      <h1 class="hero-name" id="nombreHero"></h1>
+      <div class="hero-divider" aria-hidden="true">✦</div>
+      <!-- Igual que arriba: se rellena por JavaScript con id "fechaHero" -->
+      <p class="hero-date" id="fechaHero"></p>
+      <!-- Indicador visual de "desliza hacia abajo", puramente decorativo -->
+      <div class="hero-scroll" aria-hidden="true"><span></span></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CUENTA REGRESIVA
+  ============================================================ -->
+  <section class="countdown">
+    <div class="wrap">
+      <span class="eyebrow">Falta poco</span>
+      <h2>Cuenta regresiva</h2>
+      <div class="countdown-grid">
+        <!-- Cada número (00) se actualiza cada segundo desde JavaScript, usando estos ids -->
+        <div><span class="num" id="cd-dias">00</span><span class="lbl">Días</span></div>
+        <div><span class="num" id="cd-horas">00</span><span class="lbl">Hrs</span></div>
+        <div><span class="num" id="cd-min">00</span><span class="lbl">Min</span></div>
+        <div><span class="num" id="cd-seg">00</span><span class="lbl">Seg</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COORDENADAS (iglesia y salón)
+  ============================================================ -->
+  <section class="coords">
+    <div class="wrap">
+      <span class="eyebrow">Ubicaciones</span>
+      <h2>Coordenadas</h2>
+
+      <!-- Tarjeta de la iglesia. Nombre, dirección y link de mapa se rellenan por JavaScript -->
+      <div class="place-card" style="margin-top:28px;">
+        <img class="place-photo" src="I1.png" alt="Parroquia">
+        <h3 id="iglesiaNombre"></h3>
+        <p class="addr" id="iglesiaDireccion"></p>
+        <a class="btn" id="iglesiaMapa" href="#" target="_blank" rel="noopener">Ver mapa</a>
+      </div>
+
+      <!-- Tarjeta del salón, misma lógica que la de la iglesia -->
+      <div class="place-card">
+        <img class="place-photo" src="RUTA_FOTO_SALON.jpg" alt="Salón del evento">
+        <h3 id="salonNombre"></h3>
+        <p class="addr" id="salonDireccion"></p>
+        <a class="btn" id="salonMapa" href="#" target="_blank" rel="noopener">Ver mapa</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ITINERARIO
+  ============================================================ -->
+  <section class="itinerary">
+    <div class="wrap">
+      <span class="eyebrow">Programa</span>
+      <h2>Itinerario</h2>
+      <!-- Este div empieza vacío: JavaScript genera una fila (hora + actividad)
+           por cada elemento del arreglo EVENTO.itinerario -->
+      <div class="itinerary-list" id="itinerarioLista"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CÓDIGO DE VESTIMENTA
+  ============================================================ -->
+  <section class="dresscode center">
+    <div class="wrap">
+      <span class="eyebrow">Código de vestimenta</span>
+      <!-- Título y texto se rellenan por JavaScript desde EVENTO.vestimenta -->
+      <h2 id="vestimentaTitulo"></h2>
+      <p id="vestimentaTexto"></p>
+      <img class="dresscode-photo" src="RUTA_FOTO_VESTIMENTA.jpg" alt="Código de vestimenta">
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GALERÍA / MEMORIES
+  ============================================================ -->
+  <section class="gallery">
+    <div class="wrap">
+      <span class="eyebrow">Recuerdos</span>
+      <h2>Memories</h2>
+    </div>
+    <!-- Carrusel: flecha izquierda, pista de fotos (se llena con JS), flecha derecha -->
+    <div class="carousel-wrap">
+      <button class="carousel-arrow prev" id="galArrowPrev" aria-label="Foto anterior" type="button">‹</button>
+      <!-- Vacío en el HTML: JavaScript agrega una <img> por cada ruta en EVENTO.galeria -->
+      <div class="carousel-track" id="galeriaGrid"></div>
+      <button class="carousel-arrow next" id="galArrowNext" aria-label="Foto siguiente" type="button">›</button>
+    </div>
+    <!-- Puntitos de posición, también generados por JavaScript -->
+    <div class="carousel-dots" id="galeriaDots"></div>
+  </section>
+
+  <!-- ============================================================
+       LLUVIA DE SOBRES
+  ============================================================ -->
+  <section class="sobres center">
+    <div class="wrap">
+      <span class="eyebrow">Un detalle</span>
+      <h2>Lluvia de sobres</h2>
+      <!-- Texto rellenado por JavaScript desde EVENTO.sobresTexto -->
+      <p id="sobresTexto"></p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPARTIR FOTOS Y VIDEOS
+  ============================================================ -->
+  <section class="compartir center">
+    <div class="wrap">
+      <span class="eyebrow">Recuerdos compartidos</span>
+      <h2>Comparte tus fotos y videos</h2>
+      <p>Ayúdame a guardar los recuerdos más bonitos de esta noche. Comparte aquí tus fotos y videos del evento.</p>
+      <!-- El href="#" se reemplaza por JavaScript con EVENTO.compartirUrl -->
+      <a class="btn solid" id="compartirLink" href="#" target="_blank" rel="noopener">Enviar fotos y videos</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RSVP
+  ============================================================ -->
+  <section class="rsvp center">
+    <div class="wrap">
+      <span class="eyebrow">Confirmación</span>
+      <h2>Te esperamos</h2>
+      <p>Tu presencia es lo más importante.</p>
+      <!-- Formulario simple: nombre, número de acompañantes y si asistirá o no.
+           El evento "submit" lo captura JavaScript más abajo -->
+      <form id="rsvpForm">
+        <input type="text" placeholder="Nombre completo" required>
+        <input type="number" placeholder="Número de acompañantes" min="0" required>
+        <select required>
+          <option value="" disabled selected>¿Asistirás?</option>
+          <option value="si">Sí, ahí estaré</option>
+          <option value="no">No podré asistir</option>
+        </select>
+        <button type="submit" class="btn solid">Confirmar asistencia</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    Invitación digital
+  </footer>
+
+  <script>
+  /* ============================================================
+     2. DATOS DEL EVENTO — edita SOLO este objeto para reutilizar
+     la plantilla con los datos de otra quinceañera.
+     Todo lo que ves en la invitación (nombre, fecha, lugares,
+     itinerario, etc.) sale de aquí, no está escrito directamente
+     en el HTML.
+     ============================================================ */
+  const EVENTO = {
+    nombre: "Jessi Ramirez",
+    fechaLegible: "Sábado 19 de Septiembre de 2026 · 5:00 PM", // texto que se muestra tal cual debajo del nombre
+    fechaLimite: "2026-09-19T20:00:00", // fecha/hora exacta en formato ISO, usada por la cuenta regresiva para calcular el tiempo restante
+
+    iglesia: {
+      nombre: "Parroquia de San Isidro Labrador",
+      direccion: "Calle Falsa 123, Colonia Centro",
+      mapaUrl: "https://www.google.com/maps/place/Templo+de+San+Isidro+Labrador/@20.5815557,-100.4956547,18z/data=!4m6!3m5!1s0x85d34e2813891c61:0x4b7e666513529955!8m2!3d20.5816032!4d-100.494828!16s%2Fg%2F11c1vj5m7w?entry=ttu&g_ep=EgoyMDI2MDgxNy4wIKXMDSoASAFQAw%3D%3D" // a dónde lleva el botón "Ver mapa"
+    },
+    salon: {
+      nombre: "Salón de Eventos El Castillito",
+      direccion: "Av. Siempre Viva 456, Colonia Jardines",
+      mapaUrl: "https://www.google.com/maps/place/Salón+de+Eventos+El+Castillito/@20.5815557,-100.4956547,18z/data=!4m6!3m5!1s0x85d34e2813891c61:0x4b7e666513529955!8m2!3d20.5816032!4d-100.494828!16s%2Fg%2F11c1vj5m7w?entry=ttu&g_ep=EgoyMDI2MDgxNy4wIKXMDSoASAFQAw%3D%3D"
+    },
+
+    // Cada objeto de este arreglo genera automáticamente una fila en la sección "Itinerario"
+    itinerario: [
+      { hora: "7:30 PM", actividad: "Ceremonia religiosa" },
+      { hora: "9:00 PM", actividad: "Recepción" },
+      { hora: "9:30 PM", actividad: "Entrada de la quinceañera" },
+      { hora: "10:00 PM", actividad: "Vals" },
+      { hora: "10:30 PM", actividad: "Cena" },
+      { hora: "11:30 PM", actividad: "Baile" }
+    ],
+
+    vestimenta: {
+      titulo: "Formal",
+      texto: "Se sugiere evitar el color verde menta, reservado para la quinceañera."
+    },
+
+    // Cada ruta de este arreglo genera automáticamente una imagen en la cuadrícula "Memories"
+    galeria: [
+      "1.jpeg",
+      "2.jpeg",
+      "3.jpeg",
+      "4.jpeg",
+      "5.jpeg",
+      "6.jpeg"
+    ],
+
+    sobresTexto: "Si deseas hacerme un regalo, una lluvia de sobres será muy apreciada.",
+    compartirUrl: "https://ejemplo.com/subir-fotos" // a dónde lleva el botón "Enviar fotos y videos"
+  };
+
+  /* ============================================================
+     3. RENDER — toma los datos de arriba y los "pinta" en el HTML.
+     Normalmente NO necesitas tocar esta parte, solo el objeto
+     EVENTO de arriba.
+     ============================================================ */
+
+  // Rellena el nombre y la fecha en el hero
+  document.getElementById("nombreHero").textContent = EVENTO.nombre;
+  document.getElementById("fechaHero").textContent   = EVENTO.fechaLegible;
+
+  // Rellena los datos de la iglesia (nombre, dirección y el link del botón "Ver mapa")
+  document.getElementById("iglesiaNombre").textContent    = EVENTO.iglesia.nombre;
+  document.getElementById("iglesiaDireccion").textContent = EVENTO.iglesia.direccion;
+  document.getElementById("iglesiaMapa").href              = EVENTO.iglesia.mapaUrl;
+
+  // Lo mismo para el salón
+  document.getElementById("salonNombre").textContent    = EVENTO.salon.nombre;
+  document.getElementById("salonDireccion").textContent = EVENTO.salon.direccion;
+  document.getElementById("salonMapa").href               = EVENTO.salon.mapaUrl;
+
+  // Recorre el arreglo EVENTO.itinerario y crea una fila <div class="itinerary-item"> por cada actividad,
+  // insertando la hora dentro de <time> y la actividad dentro de <span>
+  const itLista = document.getElementById("itinerarioLista");
+  EVENTO.itinerario.forEach(item => {
+    const row = document.createElement("div");     // crea el contenedor de la fila
+    row.className = "itinerary-item";               // le da la clase para que tome el estilo CSS correspondiente
+    row.innerHTML = `<time>${item.hora}</time><span>${item.actividad}</span>`; // inserta el texto de esa actividad
+    itLista.appendChild(row);                        // agrega la fila ya armada a la lista en pantalla
+  });
+
+  // Rellena el título y el texto del código de vestimenta
+  document.getElementById("vestimentaTitulo").textContent = EVENTO.vestimenta.titulo;
+  document.getElementById("vestimentaTexto").textContent  = EVENTO.vestimenta.texto;
+
+  // Recorre el arreglo EVENTO.galeria y crea una <img> por cada foto dentro del carrusel,
+  // y además un puntito indicador por cada foto
+  const galTrack = document.getElementById("galeriaGrid");
+  const galDots  = document.getElementById("galeriaDots");
+
+  EVENTO.galeria.forEach((src, i) => {
+    // Foto dentro de la pista del carrusel
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Recuerdo " + (i + 1);
+    galTrack.appendChild(img);
+
+    // Puntito indicador correspondiente a esa foto
+    const dot = document.createElement("span");
+    if(i === 0) dot.classList.add("active"); // el primero empieza activo
+    // Al hacer clic en un puntito, desliza el carrusel hasta esa foto
+    dot.addEventListener("click", () => {
+      galTrack.children[i].scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+    });
+    galDots.appendChild(dot);
+  });
+
+  // Flechas: cada clic desliza la pista aproximadamente el ancho de una foto
+  document.getElementById("galArrowPrev").addEventListener("click", () => {
+    galTrack.scrollBy({left: -galTrack.clientWidth * 0.78, behavior:"smooth"});
+  });
+  document.getElementById("galArrowNext").addEventListener("click", () => {
+    galTrack.scrollBy({left: galTrack.clientWidth * 0.78, behavior:"smooth"});
+  });
+
+  // Mientras el usuario desliza el carrusel (con el dedo, mouse o las flechas),
+  // detecta qué foto quedó más cerca del centro y marca su puntito como activo
+  galTrack.addEventListener("scroll", () => {
+    const centro = galTrack.scrollLeft + galTrack.clientWidth / 2;
+    let masCercanoIdx = 0;
+    let menorDistancia = Infinity;
+    Array.from(galTrack.children).forEach((foto, i) => {
+      const centroFoto = foto.offsetLeft + foto.clientWidth / 2;
+      const distancia = Math.abs(centroFoto - centro);
+      if(distancia < menorDistancia){
+        menorDistancia = distancia;
+        masCercanoIdx = i;
+      }
+    });
+    Array.from(galDots.children).forEach((dot, i) => {
+      dot.classList.toggle("active", i === masCercanoIdx);
+    });
+  });
+
+  // Rellena el texto de la lluvia de sobres y el link del botón para compartir fotos/videos
+  document.getElementById("sobresTexto").textContent = EVENTO.sobresTexto;
+  document.getElementById("compartirLink").href = EVENTO.compartirUrl;
+
+  // ---------- Cuenta regresiva ----------
+  // Esta función se ejecuta una vez al cargar la página y luego cada segundo (ver setInterval al final),
+  // recalculando cuánto tiempo falta para la fecha del evento.
+  function actualizarCountdown(){
+    const ahora = new Date().getTime();               // momento actual, en milisegundos
+    const meta  = new Date(EVENTO.fechaLimite).getTime(); // momento del evento, en milisegundos
+    const dif   = meta - ahora;                        // diferencia entre ambos, en milisegundos
+
+    // Si ya se llegó (o pasó) la fecha del evento, deja todo en 00 y no sigue calculando
+    if(dif <= 0){
+      document.getElementById("cd-dias").textContent  = "00";
+      document.getElementById("cd-horas").textContent = "00";
+      document.getElementById("cd-min").textContent   = "00";
+      document.getElementById("cd-seg").textContent   = "00";
+      return;
+    }
+
+    // Convierte la diferencia en milisegundos a días, horas, minutos y segundos
+    const dias  = Math.floor(dif / (1000*60*60*24));
+    const horas = Math.floor((dif % (1000*60*60*24)) / (1000*60*60));
+    const min   = Math.floor((dif % (1000*60*60)) / (1000*60));
+    const seg   = Math.floor((dif % (1000*60)) / 1000);
+
+    // Muestra cada valor en pantalla, agregando un "0" al inicio si es menor a 10 (ej. "05" en vez de "5")
+    document.getElementById("cd-dias").textContent  = String(dias).padStart(2,"0");
+    document.getElementById("cd-horas").textContent = String(horas).padStart(2,"0");
+    document.getElementById("cd-min").textContent   = String(min).padStart(2,"0");
+    document.getElementById("cd-seg").textContent   = String(seg).padStart(2,"0");
+  }
+  actualizarCountdown();              // corre una vez de inmediato, para no esperar 1 segundo a que se vea algo
+  setInterval(actualizarCountdown, 1000); // y luego se repite automáticamente cada 1000ms (1 segundo)
+
+  // ---------- RSVP ----------
+  // Escucha cuando se envía el formulario de confirmación
+  document.getElementById("rsvpForm").addEventListener("submit", function(e){
+    e.preventDefault(); // evita que la página se recargue (comportamiento por defecto de los formularios)
+    // Por ahora solo muestra una alerta. Para que realmente GUARDE las confirmaciones,
+    // aquí es donde conectarías un backend propio, una hoja de Google Sheets, o un envío por WhatsApp/correo.
+    alert("¡Gracias por confirmar! (conecta este formulario a tu backend, hoja de cálculo o WhatsApp)");
+  });
+  </script>
+
+</body>
+</html>
