@@ -42,8 +42,8 @@
   *{box-sizing:border-box; margin:0; padding:0;}
 
   /* Hace que al hacer clic en un link interno (como "#") la página se desplace suavemente en vez de saltar de golpe */
-  html{scroll-behavior:smooth;}
-  html, body{width:100%; min-width:0;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  html, body{width:100%; min-width:0; max-width:100%;}
 
   body{
     font-family:var(--font-body);  /* tipografía base de todo el texto */
@@ -54,6 +54,7 @@
     background:linear-gradient(180deg, var(--color-mint) 0%, var(--color-beige) 100%);
     -webkit-font-smoothing:antialiased; /* suaviza el renderizado del texto en Mac/iOS */
     overflow-x:hidden;
+    overscroll-behavior-x:none;
   }
 
   /* Capa global de estrellas: permanece visible mientras se recorre toda la invitación. */
@@ -104,9 +105,11 @@
     padding:72px 0;
     border-bottom:1px solid var(--color-line);
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
     text-align:center;
+    overflow-x:hidden;
   }
   section:last-of-type{border-bottom:none;} /* la última sección no lleva línea abajo */
 
@@ -309,7 +312,7 @@
   /* ---------- CARRUSEL DE MEMORIES ---------- */
   /* Contenedor que envuelve el carrusel y las flechas, para poder posicionar
      las flechas de forma absoluta respecto a él */
-  .carousel-wrap{position:relative; margin-top:24px;}
+  .carousel-wrap{position:relative; width:100%; min-width:0; margin-top:24px;}
 
   /* La "pista" por la que se deslizan las fotos.
      overflow-x:auto = permite deslizar horizontalmente.
