@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Título que aparece en la pestaña del navegador -->
 <title>Mis XV Años</title>
-/Hola/
 <!-- Estas dos líneas "precalientan" la conexión a Google Fonts para que las tipografías carguen más rápido -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,6 +55,41 @@
     -webkit-font-smoothing:antialiased; /* suaviza el renderizado del texto en Mac/iOS */
     overflow-x:hidden;
   }
+
+  /* Capa global de estrellas: permanece visible mientras se recorre toda la invitación. */
+  .page-stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-repeat:no-repeat;
+    background-image:
+      radial-gradient(2px 2px at 8% 12%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 24% 28%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 46% 10%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 72% 18%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 92% 34%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 16% 48%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 38% 66%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 62% 46%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 84% 72%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 10% 86%, var(--color-gold-glow), transparent),
+      radial-gradient(2px 2px at 52% 88%, var(--color-gold-glow), transparent),
+      radial-gradient(2.5px 2.5px at 94% 92%, var(--color-gold-glow), transparent);
+  }
+  .page-stars::before,
+  .page-stars::after{
+    content:"✦";
+    position:absolute;
+    color:var(--color-gold-glow);
+    text-shadow:0 0 10px rgba(255,216,115,.9), 0 0 4px rgba(255,255,255,.6);
+    animation:heroTwinkle 3.4s ease-in-out infinite;
+  }
+  .page-stars::before{top:22%; left:30%; font-size:18px;}
+  .page-stars::after{top:74%; right:22%; font-size:15px; animation-delay:1.4s;}
+
+  body > section,
+  body > footer{position:relative; z-index:1;}
 
   img{max-width:100%; display:block;} /* las imágenes nunca se desbordan de su contenedor */
   a{color:inherit; text-decoration:none;} /* los links heredan el color del texto y no llevan subrayado */
@@ -382,6 +416,7 @@
 </style>
 </head>
 <body>
+  <div class="page-stars" aria-hidden="true"></div>
 
   <!-- ============================================================
        HERO — portada de la invitación
