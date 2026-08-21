@@ -113,6 +113,12 @@
   }
   section:last-of-type{border-bottom:none;} /* la última sección no lleva línea abajo */
 
+  /* Desde después de la cuenta regresiva, cada sección se ajusta a su contenido. */
+  section.countdown ~ section{
+    min-height:auto;
+    padding:48px 0;
+  }
+
   /* "Eyebrow" = la palabra pequeña en mayúsculas que va arriba de cada título (ej. "PROGRAMA") */
   .eyebrow{
     font-family:var(--font-body);
@@ -396,6 +402,7 @@
     section{width:100%;}
     section > .wrap{width:100%;}
     section{padding:60px 0;}
+    section.countdown ~ section{padding:34px 0;}
     .hero{padding:50px 12px 44px;}
     .hero-photo-frame{width:210px; height:210px; margin-bottom:24px;}
     .hero-name{font-size:clamp(30px, 9vw, 40px);}
