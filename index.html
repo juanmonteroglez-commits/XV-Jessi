@@ -5,7 +5,17 @@
 <!-- Hace que la página se vea bien en celulares: usa el ancho real de la pantalla y no hace zoom automático -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Título que aparece en la pestaña del navegador -->
-<title>Mis XV Años</title>
+<!-- 1. El título que aparece en la pestaña del navegador -->
+<title>Jessie | ¡Mis XV Años!</title>
+
+<!-- 2. Etiquetas Open Graph para la vista previa en WhatsApp -->
+<meta property="og:title" content="Jessie | ¡Mis XV Años!">
+<meta property="og:description" content="Te invito a celebrar conmigo este día tan especial. ¡Acompáñame!">
+<meta property="og:url" content="https://juanmonteroglez-commits.github.io/XV-Jessi/">
+<meta property="og:type" content="website">
+  
+<!-- Opcional: Si quieres que aparezca una foto miniatura, quita los comentarios de la siguiente línea y pon la URL de tu foto -->
+<!-- <meta property="og:image" content="https://juanmonteroglez-commits.github.io/XV-Jessi/PRINCIPAL.jpeg"> -->
 <!-- Estas dos líneas "precalientan" la conexión a Google Fonts para que las tipografías carguen más rápido -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -275,14 +285,14 @@
      ============================================================ */
   .countdown{text-align:center;}
   .countdown-grid{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:24px; /* 4 columnas iguales: días/hrs/min/seg */
+    display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); width:min(100%,312px); justify-content:center; gap:8px; margin:24px auto 0; /* cuatro cuadros compactos: días/horas/minutos/segundos */
   }
   .countdown-grid div{
     background:var(--color-beige); backdrop-filter:blur(6px);
     border:1px solid rgba(255,255,255,.5);
-    padding:18px 6px; border-radius:var(--radius);
+    min-height:76px; padding:8px 4px 7px; border-radius:8px;
   }
-  .countdown-grid .num{font-family:var(--font-display); font-size:30px; color:var(--color-primary); display:block;} /* el número grande */
+  .countdown-grid .num{font-family:var(--font-display); font-size:34px; line-height:1; color:var(--color-primary); display:block;} /* el número grande */
   .countdown-grid .lbl{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--color-ink-soft);} /* la etiqueta pequeña debajo */
 
   /* ============================================================
@@ -393,7 +403,7 @@
   /* En pantallas más anchas que 600px, la cuenta regresiva no se estira a todo el ancho:
      se limita a 360px y se centra, para que no se vea demasiado separada */
   @media(min-width:600px){
-    .countdown-grid{max-width:360px; margin:24px auto 0;}
+    .countdown-grid{margin:24px auto 0;}
   }
 
   /* Ajustes para teléfonos: reduce el aire lateral y vertical sin perder la jerarquía visual */
@@ -410,8 +420,8 @@
     h2{font-size:clamp(30px, 8vw, 38px);}
     p{font-size:17px; line-height:1.7;}
     .countdown-grid{gap:8px; margin-top:28px;}
-    .countdown-grid div{padding:22px 6px;}
-    .countdown-grid .num{font-size:clamp(28px, 8vw, 38px);}
+    .countdown-grid div{min-height:76px;}
+    .countdown-grid .num{font-size:34px;}
     .countdown-grid .lbl{font-size:11px;}
     .place-photo{width:100%; height:220px; margin:0 auto 16px;}
     .place-card h3{font-size:clamp(23px, 6.5vw, 29px); overflow-wrap:anywhere;}
@@ -470,9 +480,9 @@
       <div class="countdown-grid">
         <!-- Cada número (00) se actualiza cada segundo desde JavaScript, usando estos ids -->
         <div><span class="num" id="cd-dias">00</span><span class="lbl">Días</span></div>
-        <div><span class="num" id="cd-horas">00</span><span class="lbl">Hrs</span></div>
-        <div><span class="num" id="cd-min">00</span><span class="lbl">Min</span></div>
-        <div><span class="num" id="cd-seg">00</span><span class="lbl">Seg</span></div>
+        <div><span class="num" id="cd-horas">00</span><span class="lbl">Horas</span></div>
+        <div><span class="num" id="cd-min">00</span><span class="lbl">Minutos</span></div>
+        <div><span class="num" id="cd-seg">00</span><span class="lbl">Segundos</span></div>
       </div>
     </div>
   </section>
