@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
   
 <!-- Opcional: Si quieres que aparezca una foto miniatura, quita los comentarios de la siguiente línea y pon la URL de tu foto -->
-<meta property="og:image" content="https://juanmonteroglez-commits.github.io/XV-Jessi/PRINCIPAL.jpeg"> -->
+<!-- <meta property="og:image" content="https://juanmonteroglez-commits.github.io/XV-Jessi/PRINCIPAL.jpeg"> -->
 <!-- Estas dos líneas "precalientan" la conexión a Google Fonts para que las tipografías carguen más rápido -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -230,6 +230,50 @@
      de las estrellas y destellos, que están en capas absolutas detrás */
   .hero-content{position:relative; z-index:1;}
 
+  /* Portada inicial con el sobre de la invitacion */
+  body.invitation-locked{overflow:hidden;}
+  .invitation-cover{
+    position:fixed; inset:0; z-index:20;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    background:linear-gradient(180deg, var(--color-mint) 0%, var(--color-beige) 100%);
+    transition:opacity .55s ease, visibility .55s ease;
+  }
+  .invitation-cover.is-open{opacity:0; visibility:hidden; pointer-events:none;}
+  .envelope-button{
+    position:relative; width:min(290px, 78vw); aspect-ratio:1.45;
+    border:0; padding:0; background:transparent; cursor:pointer;
+    filter:drop-shadow(0 16px 18px rgba(20,38,28,.22));
+  }
+  .envelope{
+    position:absolute; inset:16% 0 0;
+    overflow:visible; border:1px solid rgba(255,255,255,.72);
+    border-radius:3px; background:linear-gradient(145deg, #f5e8c9, #ead5a8);
+  }
+  .envelope::before{
+    content:""; position:absolute; inset:0; z-index:2;
+    background:linear-gradient(145deg, #f4e4bd, #e4cc99);
+    clip-path:polygon(0 0, 50% 61%, 100% 0, 100% 7%, 50% 68%, 0 7%);
+  }
+  .envelope::after{
+    content:""; position:absolute; inset:0; z-index:3;
+    background:linear-gradient(140deg, transparent 49.5%, rgba(199,161,90,.28) 50%, transparent 50.8%),
+               linear-gradient(40deg, transparent 49.5%, rgba(199,161,90,.28) 50%, transparent 50.8%),
+               linear-gradient(180deg, transparent 68%, rgba(199,161,90,.16));
+  }
+  .envelope-bow{
+    position:absolute; left:50%; top:50%; z-index:5;
+    width:min(230px, 82%); height:170px; transform:translate(-50%,-50%);
+    object-fit:contain; pointer-events:none;
+    filter:drop-shadow(0 5px 5px rgba(95,58,5,.25));
+  }
+  .envelope-label{
+    position:absolute; left:0; right:0; bottom:-52px;
+    color:var(--color-primary); font:500 13px var(--font-body);
+    letter-spacing:.18em; text-transform:uppercase;
+  }
+  .envelope-button:focus-visible{outline:2px solid var(--color-accent); outline-offset:10px;}
+
   /* El marco circular dorado alrededor de la foto principal */
   .hero-photo-frame{
     width:210px; height:210px; border-radius:50%; margin:0 auto 26px; /* 50% = círculo perfecto */
@@ -436,8 +480,17 @@
   }
 </style>
 </head>
-<body>
+<body class="invitation-locked">
   <div class="page-stars" aria-hidden="true"></div>
+
+  <div class="invitation-cover" id="invitationCover">
+    <button class="envelope-button" id="openInvitation" type="button" aria-label="Abrir invitación">
+      <span class="envelope" aria-hidden="true">
+        <img class="envelope-bow" src="moño.png" alt="">
+      </span>
+      <span class="envelope-label">Abrir invitación</span>
+    </button>
+  </div>
 
   <!-- ============================================================
        HERO — portada de la invitación
@@ -612,6 +665,12 @@
   </footer>
 
   <script>
+  const invitationCover = document.getElementById("invitationCover");
+  document.getElementById("openInvitation").addEventListener("click", () => {
+    document.body.classList.remove("invitation-locked");
+    invitationCover.classList.add("is-open");
+  });
+
   /* ============================================================
      2. DATOS DEL EVENTO — edita SOLO este objeto para reutilizar
      la plantilla con los datos de otra quinceañera.
