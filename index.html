@@ -302,13 +302,13 @@
      ============================================================ */
   .itinerary-list{margin-top:28px;}
   .itinerary-item{
-    display:flex; justify-content:center; gap:18px; padding:14px 0; border-top:1px solid var(--color-line); /* cada fila: hora + actividad, lado a lado */
+    display:grid; grid-template-columns:80px minmax(0,1fr); align-items:center; gap:18px; padding:14px 0; border-top:1px solid var(--color-line); /* cada fila: hora + actividad, lado a lado */
   }
   .itinerary-item:last-child{border-bottom:1px solid var(--color-line);} /* la última fila también cierra con línea abajo */
   .itinerary-item time{
-    font-family:var(--font-display); font-size:18px; color:var(--color-accent); min-width:64px; /* ancho fijo para que todas las horas alineen */
+    font-family:var(--font-display); font-size:18px; color:var(--color-accent); text-align:right; white-space:nowrap; /* columna fija para alinear todas las horas */
   }
-  .itinerary-item span{font-size:14px; align-self:center; text-align:center;}
+  .itinerary-item span{font-size:14px; text-align:left;}
 
   /* ============================================================
      CÓDIGO DE VESTIMENTA Y GALERÍA
