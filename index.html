@@ -559,7 +559,7 @@
 </head>
 <body class="invitation-locked">
   <div class="page-stars" aria-hidden="true"></div>
-  <audio id="backgroundMusic" src="cancion.mp3" loop preload="auto"></audio>
+  <audio id="backgroundMusic" src="cancion.mp3" loop preload="none"></audio>
   <button class="music-toggle" id="musicToggle" type="button" aria-label="Pausar música" aria-pressed="true">♫</button>
 
   <div class="invitation-cover" id="invitationCover">
@@ -632,7 +632,7 @@
 
       <!-- Tarjeta de la iglesia. Nombre, dirección y link de mapa se rellenan por JavaScript -->
       <div class="place-card" style="margin-top:28px;">
-        <img class="place-photo" src="I1.png" alt="Parroquia">
+        <img class="place-photo" src="I1.png" alt="Parroquia" loading="lazy" decoding="async">
         <h3 id="iglesiaNombre"></h3>
         <p class="addr" id="iglesiaDireccion"></p>
         <a class="btn" id="iglesiaMapa" href="#" target="_blank" rel="noopener">Ver mapa</a>
@@ -640,7 +640,7 @@
 
       <!-- Tarjeta del salón, misma lógica que la de la iglesia -->
       <div class="place-card">
-        <img class="place-photo" src="salon.png" alt="Salón del evento">
+        <img class="place-photo" src="salon.png" alt="Salón del evento" loading="lazy" decoding="async">
         <h3 id="salonNombre"></h3>
         <p class="addr" id="salonDireccion"></p>
         <a class="btn" id="salonMapa" href="#" target="_blank" rel="noopener">Ver mapa</a>
@@ -670,7 +670,7 @@
       <!-- Título y texto se rellenan por JavaScript desde EVENTO.vestimenta -->
       <h2 id="vestimentaTitulo"></h2>
       <p id="vestimentaTexto"></p>
-      <img class="dresscode-photo" src="Ejem.png" alt="Código de vestimenta">
+      <img class="dresscode-photo" src="Ejem.png" alt="Código de vestimenta" loading="lazy" decoding="async">
     </div>
   </section>
 
@@ -890,6 +890,8 @@
     const img = document.createElement("img");
     img.src = src;
     img.alt = "Recuerdo " + (i + 1);
+    img.loading = "lazy";
+    img.decoding = "async";
     galTrack.appendChild(img);
 
     // Puntito indicador correspondiente a esa foto
